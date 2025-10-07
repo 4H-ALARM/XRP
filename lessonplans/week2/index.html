@@ -9,24 +9,24 @@
     <meta name="generator" content="Retype 3.11.0">
 
     <!-- Primary Meta Tags -->
-    <title>Lesson 1: How to Set Up and Move the Robot</title>
-    <meta name="title" content="Lesson 1: How to Set Up and Move the Robot">
-    <meta name="description" content="Teachers will guide students through setting up their XRP robot and writing their first Java program to drive it forward and backward using WPILib.">
+    <title>Lesson 2: How to Create Commands</title>
+    <meta name="title" content="Lesson 2: How to Create Commands">
+    <meta name="description" content="Teachers will guide students through the process of creating and managing Commands in the Command-Based WPILib structure for XRP.">
 
     <!-- Canonical -->
-    <link rel="canonical" href="/lessonplans/week1/">
+    <link rel="canonical" href="/lessonplans/week2/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="/lessonplans/week1/">
-    <meta property="og:title" content="Lesson 1: How to Set Up and Move the Robot">
-    <meta property="og:description" content="Teachers will guide students through setting up their XRP robot and writing their first Java program to drive it forward and backward using WPILib.">
+    <meta property="og:url" content="/lessonplans/week2/">
+    <meta property="og:title" content="Lesson 2: How to Create Commands">
+    <meta property="og:description" content="Teachers will guide students through the process of creating and managing Commands in the Command-Based WPILib structure for XRP.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="/lessonplans/week1/">
-    <meta property="twitter:title" content="Lesson 1: How to Set Up and Move the Robot">
-    <meta property="twitter:description" content="Teachers will guide students through setting up their XRP robot and writing their first Java program to drive it forward and backward using WPILib.">
+    <meta property="twitter:url" content="/lessonplans/week2/">
+    <meta property="twitter:title" content="Lesson 2: How to Create Commands">
+    <meta property="twitter:description" content="Teachers will guide students through the process of creating and managing Commands in the Command-Based WPILib structure for XRP.">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
@@ -150,10 +150,10 @@
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="retype-sidebar-right-toggle"></div>
                                 <!-- Page content  -->
-<doc-anchor-target id="lesson-1-how-to-set-up-and-move-the-robot" class="break-words">
+<doc-anchor-target id="lesson-2-how-to-create-commands" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-1-how-to-set-up-and-move-the-robot">#</doc-anchor-trigger>
-        <span>Lesson 1: How to Set Up and Move the Robot</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-2-how-to-create-commands">#</doc-anchor-trigger>
+        <span>Lesson 2: How to Create Commands</span>
     </h1>
 </doc-anchor-target>
 <doc-anchor-target id="objective">
@@ -162,7 +162,7 @@
         <span>Objective</span>
     </h2>
 </doc-anchor-target>
-<p>Teachers will guide students through setting up their XRP robot and writing their first Java program to drive it forward and backward using WPILib.</p>
+<p>Teachers will guide students through the process of creating and managing Commands in the Command-Based WPILib structure for XRP. Students will learn how to design modular robot actions.</p>
 <doc-anchor-target id="prerequisites">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#prerequisites">#</doc-anchor-trigger>
@@ -170,9 +170,9 @@
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Students have installed <strong>WPILib VS Code</strong> and the <strong>XRP project template</strong>.</li>
-<li>XRP is assembled, connected via WiFi, and flashed with the latest firmware.</li>
-<li>Students are familiar with the Java class structure and basic syntax.</li>
+<li>Completion of Lesson 1: Set Up and Move the Robot.</li>
+<li>Students understand how subsystems interact with commands.</li>
+<li>XRP and VS Code are set up and connected.</li>
 </ul>
 <doc-anchor-target id="teaching-notes">
     <h2>
@@ -180,7 +180,7 @@
         <span>Teaching Notes</span>
     </h2>
 </doc-anchor-target>
-<p>This lesson introduces the XRP’s environment and simple robot movement. Emphasize the structure of WPILib robot projects, focusing on the <code v-pre>Robot</code>, <code v-pre>RobotContainer</code>, and <code v-pre>Subsystem</code> concepts at a high level.</p>
+<p>This lesson teaches students how to use the command-based model to separate logic cleanly. The focus is understanding the lifecycle of commands and why modular design matters in FRC programming.</p>
 <hr>
 <doc-anchor-target id="lesson-outline">
     <h2>
@@ -188,101 +188,92 @@
         <span>Lesson Outline</span>
     </h2>
 </doc-anchor-target>
-<doc-anchor-target id="1-explain-the-project-structure">
+<doc-anchor-target id="1-command-lifecycle-overview">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#1-explain-the-project-structure">#</doc-anchor-trigger>
-        <span>1. Explain the Project Structure</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#1-command-lifecycle-overview">#</doc-anchor-trigger>
+        <span>1. Command Lifecycle Overview</span>
     </h3>
 </doc-anchor-target>
+<p>Explain the key phases of a Command:</p>
 <ul>
-<li><code v-pre>Robot.java</code> controls the overall robot lifecycle (<code v-pre>autonomousInit</code>, <code v-pre>teleopPeriodic</code>, etc.).</li>
-<li><code v-pre>RobotContainer.java</code> wires up subsystems and commands.</li>
-<li><code v-pre>subsystems/</code> folder holds robot hardware logic.</li>
-<li><code v-pre>commands/</code> folder holds behaviors.</li>
+<li><strong>initialize()</strong> — Runs once when command starts.</li>
+<li><strong>execute()</strong> — Runs repeatedly while active.</li>
+<li><strong>end()</strong> — Runs once when finished or interrupted.</li>
+<li><strong>isFinished()</strong> — Determines when command ends.</li>
 </ul>
-<doc-anchor-target id="2-connect-and-test-the-xrp">
+<p>Illustrate this lifecycle with a diagram on the board.</p>
+<hr>
+<doc-anchor-target id="2-creating-a-drivetime-command">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#2-connect-and-test-the-xrp">#</doc-anchor-trigger>
-        <span>2. Connect and Test the XRP</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#2-creating-a-drivetime-command">#</doc-anchor-trigger>
+        <span>2. Creating a DriveTime Command</span>
     </h3>
 </doc-anchor-target>
-<ul>
-<li>Open the <strong>Driver Station</strong> or <strong>XRP Web Interface</strong>.</li>
-<li>Ensure WiFi connection is active.</li>
-<li>Verify motor control by running the default project.</li>
-</ul>
-<doc-anchor-target id="3-creating-a-drive-subsystem">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#3-creating-a-drive-subsystem">#</doc-anchor-trigger>
-        <span>3. Creating a Drive Subsystem</span>
-    </h3>
-</doc-anchor-target>
-<p>Create a new file: <code v-pre>DriveSubsystem.java</code></p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XRPDrivetrain;
-
-public class DriveSubsystem extends SubsystemBase {
-    private final XRPDrivetrain drivetrain = new XRPDrivetrain();
-
-    public void drive(double speed, double rotation) {
-        drivetrain.arcadeDrive(speed, rotation);
-    }
-}</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="4-add-drive-command">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#4-add-drive-command">#</doc-anchor-trigger>
-        <span>4. Add Drive Command</span>
-    </h3>
-</doc-anchor-target>
-<p>Create a command to move forward:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 
-public class DriveForward extends Command {
+public class DriveTime extends Command {
     private final DriveSubsystem drive;
+    private final double speed;
+    private final double duration;
+    private final Timer timer = new Timer();
 
-    public DriveForward(DriveSubsystem subsystem) {
-        drive = subsystem;
+    public DriveTime(DriveSubsystem subsystem, double speed, double duration) {
+        this.drive = subsystem;
+        this.speed = speed;
+        this.duration = duration;
         addRequirements(drive);
     }
 
     @Override
+    public void initialize() {
+        timer.reset();
+        timer.start();
+    }
+
+    @Override
     public void execute() {
-        drive.drive(0.5, 0.0); // Forward at half speed
+        drive.drive(speed, 0);
     }
 
     @Override
     public void end(boolean interrupted) {
         drive.drive(0, 0);
+        timer.stop();
     }
 
     @Override
     public boolean isFinished() {
-        return false; // Runs until stopped
+        return timer.hasElapsed(duration);
     }
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="5-run-command-in-teleop">
+<hr>
+<doc-anchor-target id="3-running-commands-from-robotcontainer">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#5-run-command-in-teleop">#</doc-anchor-trigger>
-        <span>5. Run Command in Teleop</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#3-running-commands-from-robotcontainer">#</doc-anchor-trigger>
+        <span>3. Running Commands from RobotContainer</span>
     </h3>
 </doc-anchor-target>
-<p>In <code v-pre>RobotContainer.java</code>, bind the drive command as the default:</p>
+<p>Add a test binding to <code v-pre>RobotContainer.java</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">public RobotContainer() {
-    driveSubsystem = new DriveSubsystem();
-    driveSubsystem.setDefaultCommand(new DriveForward(driveSubsystem));
+<pre translate="no" class="language-java"><code v-pre class="language-java">public class RobotContainer {
+    private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+
+    public RobotContainer() {
+        configureBindings();
+    }
+
+    private void configureBindings() {
+        new JoystickButton(new Joystick(0), 1)
+            .onTrue(new DriveTime(driveSubsystem, 0.5, 2)); // Button 1 drives for 2s
+    }
 }</code></pre>
 </doc-codeblock></div>
-<p>Deploy the code and confirm the XRP moves forward.</p>
 <hr>
 <doc-anchor-target id="teaching-tips">
     <h2>
@@ -291,9 +282,9 @@ public class DriveForward extends Command {
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Have students predict what happens when changing the speed sign.</li>
-<li>Let them try using negative values to reverse direction.</li>
-<li>Emphasize stopping motors in <code v-pre>end()</code>.</li>
+<li>Have students experiment with different speeds and durations.</li>
+<li>Explain how the <code v-pre>addRequirements()</code> method prevents hardware conflicts.</li>
+<li>Show how Commands can be composed into autonomous routines later.</li>
 </ul>
 <hr>
 <doc-anchor-target id="extensions">
@@ -303,9 +294,9 @@ public class DriveForward extends Command {
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Add rotation: modify <code v-pre>drive(0.5, 0.3)</code>.</li>
-<li>Add joystick input for control.</li>
-<li>Have students experiment with different speed combinations.</li>
+<li>Write a <code v-pre>TurnTime</code> command that spins in place.</li>
+<li>Combine commands into a <code v-pre>SequentialCommandGroup</code>.</li>
+<li>Challenge students to create a simple autonomous routine.</li>
 </ul>
 <hr>
 <doc-anchor-target id="estimated-duration">
@@ -314,7 +305,7 @@ public class DriveForward extends Command {
         <span>Estimated Duration</span>
     </h2>
 </doc-anchor-target>
-<p>45 minutes (setup + first code run)</p>
+<p>45 minutes (concept introduction + coding)</p>
 <doc-anchor-target id="learning-outcomes">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#learning-outcomes">#</doc-anchor-trigger>
@@ -322,9 +313,9 @@ public class DriveForward extends Command {
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Understand the role of <code v-pre>Subsystems</code> and <code v-pre>Commands</code>.</li>
-<li>Successfully connect and deploy code to the XRP.</li>
-<li>Control robot movement programmatically.</li>
+<li>Understand how Commands encapsulate robot actions.</li>
+<li>Learn to use <code v-pre>initialize</code>, <code v-pre>execute</code>, <code v-pre>end</code>, and <code v-pre>isFinished</code> methods.</li>
+<li>Be able to create and trigger Commands via joystick input.</li>
 </ul>
 
                                 
@@ -335,20 +326,20 @@ public class DriveForward extends Command {
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../lessonplans/week1/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                                <span class="block mt-1">Readme</span>
+                                                <span class="block mt-1">Lesson 1: How to Set Up and Move the Robot</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../lessonplans/week2/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../ourexperience/procurement/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                                <span class="block mt-1">Lesson 2: How to Create Commands</span>
+                                                <span class="block mt-1">Procurement</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -392,6 +383,6 @@ public class DriveForward extends Command {
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Lesson 1: How to Set Up and Move the Robot", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Lesson 2: How to Create Commands", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
