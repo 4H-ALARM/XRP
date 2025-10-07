@@ -9,21 +9,24 @@
     <meta name="generator" content="Retype 3.11.0">
 
     <!-- Primary Meta Tags -->
-    <title>Procurement</title>
-    <meta name="title" content="Procurement">
+    <title>Lesson 6: PID Loops with Feedforward</title>
+    <meta name="title" content="Lesson 6: PID Loops with Feedforward">
+    <meta name="description" content="Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for...">
 
     <!-- Canonical -->
-    <link rel="canonical" href="/ourexperience/procurement/">
+    <link rel="canonical" href="/lessonplans/week6/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="/ourexperience/procurement/">
-    <meta property="og:title" content="Procurement">
+    <meta property="og:url" content="/lessonplans/week6/">
+    <meta property="og:title" content="Lesson 6: PID Loops with Feedforward">
+    <meta property="og:description" content="Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="/ourexperience/procurement/">
-    <meta property="twitter:title" content="Procurement">
+    <meta property="twitter:url" content="/lessonplans/week6/">
+    <meta property="twitter:title" content="Lesson 6: PID Loops with Feedforward">
+    <meta property="twitter:description" content="Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for...">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
@@ -32,6 +35,7 @@
     <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.813185011577" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0" data-turbo-eval="false" defer></script>
     <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.813185011577" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.813185011577" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -146,12 +150,200 @@
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="retype-sidebar-right-toggle"></div>
                                 <!-- Page content  -->
-<doc-anchor-target id="procurement" class="break-words">
+<doc-anchor-target id="lesson-6-pid-loops-with-feedforward" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#procurement">#</doc-anchor-trigger>
-        <span>Procurement</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-6-pid-loops-with-feedforward">#</doc-anchor-trigger>
+        <span>Lesson 6: PID Loops with Feedforward</span>
     </h1>
 </doc-anchor-target>
+<doc-anchor-target id="objective">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#objective">#</doc-anchor-trigger>
+        <span>Objective</span>
+    </h2>
+</doc-anchor-target>
+<p>Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for system behavior.</p>
+<doc-anchor-target id="prerequisites">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#prerequisites">#</doc-anchor-trigger>
+        <span>Prerequisites</span>
+    </h2>
+</doc-anchor-target>
+<ul>
+<li>Completion of Lesson 5: PID Loops – Gyro Turn.</li>
+<li>Familiarity with motor control and tuning <code v-pre>kP</code>, <code v-pre>kI</code>, <code v-pre>kD</code>.</li>
+<li>XRP drivetrain and sensors are calibrated.</li>
+</ul>
+<doc-anchor-target id="teaching-notes">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#teaching-notes">#</doc-anchor-trigger>
+        <span>Teaching Notes</span>
+    </h2>
+</doc-anchor-target>
+<p>This lesson extends PID control by introducing feedforward — predicting how much power is needed to achieve desired motion without waiting for error feedback. Emphasize how this improves responsiveness.</p>
+<hr>
+<doc-anchor-target id="lesson-outline">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-outline">#</doc-anchor-trigger>
+        <span>Lesson Outline</span>
+    </h2>
+</doc-anchor-target>
+<doc-anchor-target id="1-concept-review">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#1-concept-review">#</doc-anchor-trigger>
+        <span>1. Concept Review</span>
+    </h3>
+</doc-anchor-target>
+<p>Draw a comparison between feedback and feedforward:</p>
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="comfortable">
+<thead>
+<tr>
+<th>Term</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Feedback (PID)</strong></td>
+<td>Responds to error</td>
+<td>Corrects when robot is off-target</td>
+</tr>
+<tr>
+<td><strong>Feedforward (FF)</strong></td>
+<td>Predicts output</td>
+<td>Applies voltage proportional to expected speed</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<doc-anchor-target id="2-introduce-feedforward-formula">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#2-introduce-feedforward-formula">#</doc-anchor-trigger>
+        <span>2. Introduce Feedforward Formula</span>
+    </h3>
+</doc-anchor-target>
+<p>WPILib’s <code v-pre>SimpleMotorFeedforward</code> models voltage:</p>
+<p>[ V = kS + kV \times v + kA \times a ]</p>
+<ul>
+<li><code v-pre>kS</code> — static friction voltage</li>
+<li><code v-pre>kV</code> — velocity gain</li>
+<li><code v-pre>kA</code> — acceleration gain</li>
+</ul>
+<hr>
+<doc-anchor-target id="3-creating-feedforwarddrive-command">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#3-creating-feedforwarddrive-command">#</doc-anchor-trigger>
+        <span>3. Creating FeedforwardDrive Command</span>
+    </h3>
+</doc-anchor-target>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.commands;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.DriveSubsystem;
+
+public class FeedforwardDrive extends Command {
+    private final DriveSubsystem drive;
+    private final PIDController pid = new PIDController(0.1, 0, 0);
+    private final SimpleMotorFeedforward ff = new SimpleMotorFeedforward(0.2, 1.2, 0.1);
+    private final double targetSpeed;
+
+    public FeedforwardDrive(DriveSubsystem subsystem, double speed) {
+        this.drive = subsystem;
+        this.targetSpeed = speed;
+        addRequirements(drive);
+    }
+
+    @Override
+    public void execute() {
+        double measuredSpeed = drive.getWheelSpeed(); // method to be implemented in DriveSubsystem
+        double pidOutput = pid.calculate(measuredSpeed, targetSpeed);
+        double ffOutput = ff.calculate(targetSpeed);
+        drive.drive(pidOutput + ffOutput, 0);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        drive.drive(0, 0);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+}</code></pre>
+</doc-codeblock></div>
+<hr>
+<doc-anchor-target id="4-updating-drivesubsystem">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#4-updating-drivesubsystem">#</doc-anchor-trigger>
+        <span>4. Updating DriveSubsystem</span>
+    </h3>
+</doc-anchor-target>
+<p>Add a method to measure wheel speed (approximate for XRP):</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-java"><code v-pre class="language-java">public double getWheelSpeed() {
+    // Replace with encoder reading when available
+    return 0.0; // Placeholder for simulation
+}</code></pre>
+</doc-codeblock></div>
+<hr>
+<doc-anchor-target id="5-discussion-and-testing">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#5-discussion-and-testing">#</doc-anchor-trigger>
+        <span>5. Discussion and Testing</span>
+    </h3>
+</doc-anchor-target>
+<p>Explain that in a real robot with encoders, feedforward improves motion smoothness.
+Run command at various speeds and observe the smooth start/stop transitions.</p>
+<hr>
+<doc-anchor-target id="teaching-tips">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#teaching-tips">#</doc-anchor-trigger>
+        <span>Teaching Tips</span>
+    </h2>
+</doc-anchor-target>
+<ul>
+<li>Emphasize that feedforward compensates before error occurs.</li>
+<li>Demonstrate how tuning <code v-pre>kS</code>, <code v-pre>kV</code>, and <code v-pre>kA</code> changes motor responsiveness.</li>
+<li>Use logging to compare raw PID vs PID + FF performance.</li>
+</ul>
+<hr>
+<doc-anchor-target id="extensions">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#extensions">#</doc-anchor-trigger>
+        <span>Extensions</span>
+    </h2>
+</doc-anchor-target>
+<ul>
+<li>Add encoder feedback to XRP to compute actual speed.</li>
+<li>Visualize control outputs in AdvantageScope.</li>
+<li>Apply feedforward to arm position or velocity control.</li>
+</ul>
+<hr>
+<doc-anchor-target id="estimated-duration">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#estimated-duration">#</doc-anchor-trigger>
+        <span>Estimated Duration</span>
+    </h2>
+</doc-anchor-target>
+<p>60–75 minutes (concept explanation + tuning)</p>
+<doc-anchor-target id="learning-outcomes">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#learning-outcomes">#</doc-anchor-trigger>
+        <span>Learning Outcomes</span>
+    </h2>
+</doc-anchor-target>
+<ul>
+<li>Understand the purpose of feedforward in control systems.</li>
+<li>Implement combined PID and feedforward control.</li>
+<li>Recognize how predictive control improves performance.</li>
+</ul>
 
                                 
                                 <!-- Required only on API pages -->
@@ -161,16 +353,23 @@
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../lessonplans/week6/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../lessonplans/week5/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                                <span class="block mt-1">Lesson 6: PID Loops with Feedforward</span>
+                                                <span class="block mt-1">Lesson 5: PID Loops – Gyro Turn</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../ourexperience/procurement/">
+                                            <span>
+                                                <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
+                                                <span class="block mt-1">Procurement</span>
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
+                                        </a>
                                     </div>
                                 </nav>
                             </footer>
@@ -211,6 +410,6 @@
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Procurement", level: 2, icon: "file", hasPrism: false, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Lesson 6: PID Loops with Feedforward", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
