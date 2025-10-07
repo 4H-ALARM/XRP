@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.813185071373">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.813185188011">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.11.0">
 
     <!-- Primary Meta Tags -->
-    <title>Lesson 6: PID Loops with Feedforward</title>
-    <meta name="title" content="Lesson 6: PID Loops with Feedforward">
-    <meta name="description" content="Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for...">
+    <title>Lesson 6: PID Loops (Feedforward for Friction Compensation)</title>
+    <meta name="title" content="Lesson 6: PID Loops (Feedforward for Friction Compensation)">
+    <meta name="description" content="Teachers will guide students through implementing a PID controller with feedforward to handle frictional resistance in the XRP robot’s drivetrain.">
 
     <!-- Canonical -->
     <link rel="canonical" href="/lessonplans/week6/">
@@ -19,23 +19,23 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="/lessonplans/week6/">
-    <meta property="og:title" content="Lesson 6: PID Loops with Feedforward">
-    <meta property="og:description" content="Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for...">
+    <meta property="og:title" content="Lesson 6: PID Loops (Feedforward for Friction Compensation)">
+    <meta property="og:description" content="Teachers will guide students through implementing a PID controller with feedforward to handle frictional resistance in the XRP robot’s drivetrain.">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="/lessonplans/week6/">
-    <meta property="twitter:title" content="Lesson 6: PID Loops with Feedforward">
-    <meta property="twitter:description" content="Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for...">
+    <meta property="twitter:title" content="Lesson 6: PID Loops (Feedforward for Friction Compensation)">
+    <meta property="twitter:description" content="Teachers will guide students through implementing a PID controller with feedforward to handle frictional resistance in the XRP robot’s drivetrain.">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../resources/css/retype.css?v=3.11.0.813185071373" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.11.0.813185188011" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.813185071373" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.813185188011" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.813185071373" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.813185071373" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.813185188011" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.813185188011" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -150,10 +150,10 @@
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="retype-sidebar-right-toggle"></div>
                                 <!-- Page content  -->
-<doc-anchor-target id="lesson-6-pid-loops-with-feedforward" class="break-words">
+<doc-anchor-target id="lesson-6-pid-loops-feedforward-for-friction-compensation" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-6-pid-loops-with-feedforward">#</doc-anchor-trigger>
-        <span>Lesson 6: PID Loops with Feedforward</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-6-pid-loops-feedforward-for-friction-compensation">#</doc-anchor-trigger>
+        <span>Lesson 6: PID Loops (Feedforward for Friction Compensation)</span>
     </h1>
 </doc-anchor-target>
 <doc-anchor-target id="objective">
@@ -162,7 +162,7 @@
         <span>Objective</span>
     </h2>
 </doc-anchor-target>
-<p>Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for system behavior.</p>
+<p>Teachers will guide students through implementing a <strong>PID controller with feedforward</strong> to handle frictional resistance in the XRP robot’s drivetrain. Students will learn to fine-tune PID constants and use feedforward terms to improve motion smoothness.</p>
 <doc-anchor-target id="prerequisites">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#prerequisites">#</doc-anchor-trigger>
@@ -170,9 +170,8 @@
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Completion of Lesson 5: PID Loops – Gyro Turn.</li>
-<li>Familiarity with motor control and tuning <code v-pre>kP</code>, <code v-pre>kI</code>, <code v-pre>kD</code>.</li>
-<li>XRP drivetrain and sensors are calibrated.</li>
+<li>Completion of Lesson 5: PID Loops - Gyro Turn.</li>
+<li>Robot code that can already perform basic PID turning using the gyro.</li>
 </ul>
 <doc-anchor-target id="teaching-notes">
     <h2>
@@ -180,7 +179,7 @@
         <span>Teaching Notes</span>
     </h2>
 </doc-anchor-target>
-<p>This lesson extends PID control by introducing feedforward — predicting how much power is needed to achieve desired motion without waiting for error feedback. Emphasize how this improves responsiveness.</p>
+<p>This lesson builds on PID control by showing how <strong>feedforward compensation</strong> can offset predictable frictional forces that cause sluggish or inconsistent performance. This mirrors real-world FRC control strategies for mechanisms like drivetrains and arms.</p>
 <hr>
 <doc-anchor-target id="lesson-outline">
     <h2>
@@ -188,142 +187,108 @@
         <span>Lesson Outline</span>
     </h2>
 </doc-anchor-target>
-<doc-anchor-target id="1-concept-review">
+<doc-anchor-target id="1-recap-what-is-feedforward">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#1-concept-review">#</doc-anchor-trigger>
-        <span>1. Concept Review</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#1-recap-what-is-feedforward">#</doc-anchor-trigger>
+        <span>1. Recap: What Is Feedforward?</span>
     </h3>
 </doc-anchor-target>
-<p>Draw a comparison between feedback and feedforward:</p>
-<div class="table-wrapper scrollbar overflow-hidden">
-<table class="comfortable">
-<thead>
-<tr>
-<th>Term</th>
-<th>Description</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Feedback (PID)</strong></td>
-<td>Responds to error</td>
-<td>Corrects when robot is off-target</td>
-</tr>
-<tr>
-<td><strong>Feedforward (FF)</strong></td>
-<td>Predicts output</td>
-<td>Applies voltage proportional to expected speed</td>
-</tr>
-</tbody>
-</table>
-</div>
-<hr>
-<doc-anchor-target id="2-introduce-feedforward-formula">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#2-introduce-feedforward-formula">#</doc-anchor-trigger>
-        <span>2. Introduce Feedforward Formula</span>
-    </h3>
-</doc-anchor-target>
-<p>WPILib’s <code v-pre>SimpleMotorFeedforward</code> models voltage:</p>
-<p>[ V = kS + kV \times v + kA \times a ]</p>
-<ul>
-<li><code v-pre>kS</code> — static friction voltage</li>
-<li><code v-pre>kV</code> — velocity gain</li>
-<li><code v-pre>kA</code> — acceleration gain</li>
-</ul>
-<hr>
-<doc-anchor-target id="3-creating-feedforwarddrive-command">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#3-creating-feedforwarddrive-command">#</doc-anchor-trigger>
-        <span>3. Creating FeedforwardDrive Command</span>
-    </h3>
-</doc-anchor-target>
+<p>Feedforward adds a predictable control term that helps the PID controller overcome known system resistance.</p>
+<p><strong>Formula:</strong></p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.commands;
+<pre translate="no" class="language-none"><code v-pre class="language-none">Output = kP * error + kI * errorSum + kD * errorRate + kS + kV * velocity</code></pre>
+</doc-codeblock></div>
+<p>Where:</p>
+<ul>
+<li><code v-pre>kS</code> is the <strong>static friction compensation</strong> (voltage needed to overcome stiction).</li>
+<li><code v-pre>kV</code> represents how much output is needed to maintain a certain velocity.</li>
+</ul>
+<p>Explain that while PID corrects <em>errors</em>, feedforward anticipates the required effort to move smoothly.</p>
+<hr>
+<doc-anchor-target id="2-example-accounting-for-high-friction">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#2-example-accounting-for-high-friction">#</doc-anchor-trigger>
+        <span>2. Example: Accounting for High Friction</span>
+    </h3>
+</doc-anchor-target>
+<p>Use this concept to improve the <strong>gyro turn</strong> from Lesson 5.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-java"><code v-pre class="language-java">public class GyroTurnCommand extends CommandBase {
+    private final Drivetrain drivetrain;
+    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private final double targetAngle;
+    private final PIDController pid = new PIDController(0.02, 0.0, 0.001);
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
+    // Feedforward constants
+    private final double kS = 0.15; // static friction voltage
+    private final double kV = 0.0;  // optional if you want velocity scaling
 
-public class FeedforwardDrive extends Command {
-    private final DriveSubsystem drive;
-    private final PIDController pid = new PIDController(0.1, 0, 0);
-    private final SimpleMotorFeedforward ff = new SimpleMotorFeedforward(0.2, 1.2, 0.1);
-    private final double targetSpeed;
-
-    public FeedforwardDrive(DriveSubsystem subsystem, double speed) {
-        this.drive = subsystem;
-        this.targetSpeed = speed;
-        addRequirements(drive);
+    public GyroTurnCommand(Drivetrain drivetrain, double angleDegrees) {
+        this.drivetrain = drivetrain;
+        this.targetAngle = angleDegrees;
+        addRequirements(drivetrain);
+        pid.setTolerance(2.0);
     }
 
     @Override
     public void execute() {
-        double measuredSpeed = drive.getWheelSpeed(); // method to be implemented in DriveSubsystem
-        double pidOutput = pid.calculate(measuredSpeed, targetSpeed);
-        double ffOutput = ff.calculate(targetSpeed);
-        drive.drive(pidOutput + ffOutput, 0);
-    }
+        double error = targetAngle - gyro.getAngle();
+        double pidOutput = pid.calculate(gyro.getAngle(), targetAngle);
 
-    @Override
-    public void end(boolean interrupted) {
-        drive.drive(0, 0);
+        // Add static friction feedforward
+        double output = pidOutput;
+        if (Math.abs(pidOutput) &gt; 0.01) {
+            output += Math.copySign(kS, pidOutput);
+        }
+
+        drivetrain.arcadeDrive(0, output);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return pid.atSetpoint();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        drivetrain.arcadeDrive(0, 0);
     }
 }</code></pre>
 </doc-codeblock></div>
 <hr>
-<doc-anchor-target id="4-updating-drivesubsystem">
+<doc-anchor-target id="3-tuning-process">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#4-updating-drivesubsystem">#</doc-anchor-trigger>
-        <span>4. Updating DriveSubsystem</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#3-tuning-process">#</doc-anchor-trigger>
+        <span>3. Tuning Process</span>
     </h3>
 </doc-anchor-target>
-<p>Add a method to measure wheel speed (approximate for XRP):</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">public double getWheelSpeed() {
-    // Replace with encoder reading when available
-    return 0.0; // Placeholder for simulation
-}</code></pre>
-</doc-codeblock></div>
+<ol>
+<li>Start with feedforward only (<code v-pre>kS</code>). Increase until the robot starts moving smoothly at low speeds.</li>
+<li>Then add PID tuning from Lesson 5 to refine accuracy.</li>
+<li>Observe how feedforward reduces overshoot and startup lag.</li>
+</ol>
 <hr>
-<doc-anchor-target id="5-discussion-and-testing">
+<doc-anchor-target id="4-teaching-demo">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#5-discussion-and-testing">#</doc-anchor-trigger>
-        <span>5. Discussion and Testing</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#4-teaching-demo">#</doc-anchor-trigger>
+        <span>4. Teaching Demo</span>
     </h3>
-</doc-anchor-target>
-<p>Explain that in a real robot with encoders, feedforward improves motion smoothness.
-Run command at various speeds and observe the smooth start/stop transitions.</p>
-<hr>
-<doc-anchor-target id="teaching-tips">
-    <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#teaching-tips">#</doc-anchor-trigger>
-        <span>Teaching Tips</span>
-    </h2>
 </doc-anchor-target>
 <ul>
-<li>Emphasize that feedforward compensates before error occurs.</li>
-<li>Demonstrate how tuning <code v-pre>kS</code>, <code v-pre>kV</code>, and <code v-pre>kA</code> changes motor responsiveness.</li>
-<li>Use logging to compare raw PID vs PID + FF performance.</li>
+<li>Have students compare turns <strong>with</strong> and <strong>without feedforward</strong>.</li>
+<li>Record both runs using <strong>AdvantageScope</strong> (next lesson) to visualize PID output and angle tracking.</li>
 </ul>
 <hr>
-<doc-anchor-target id="extensions">
+<doc-anchor-target id="discussion-points">
     <h2>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#extensions">#</doc-anchor-trigger>
-        <span>Extensions</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#discussion-points">#</doc-anchor-trigger>
+        <span>Discussion Points</span>
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Add encoder feedback to XRP to compute actual speed.</li>
-<li>Visualize control outputs in AdvantageScope.</li>
-<li>Apply feedforward to arm position or velocity control.</li>
+<li>How does friction affect turning precision?</li>
+<li>Why is static feedforward especially useful on small robots like the XRP?</li>
+<li>What other mechanisms (like arms or elevators) might need feedforward in FRC?</li>
 </ul>
 <hr>
 <doc-anchor-target id="estimated-duration">
@@ -332,7 +297,7 @@ Run command at various speeds and observe the smooth start/stop transitions.</p>
         <span>Estimated Duration</span>
     </h2>
 </doc-anchor-target>
-<p>60–75 minutes (concept explanation + tuning)</p>
+<p>60–75 minutes (including testing and tuning)</p>
 <doc-anchor-target id="learning-outcomes">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#learning-outcomes">#</doc-anchor-trigger>
@@ -340,9 +305,9 @@ Run command at various speeds and observe the smooth start/stop transitions.</p>
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Understand the purpose of feedforward in control systems.</li>
-<li>Implement combined PID and feedforward control.</li>
-<li>Recognize how predictive control improves performance.</li>
+<li>Understand feedforward’s role in overcoming system resistance.</li>
+<li>Apply friction compensation to improve control smoothness.</li>
+<li>Tune combined PID + feedforward loops for reliable motion.</li>
 </ul>
 
                                 
@@ -410,6 +375,6 @@ Run command at various speeds and observe the smooth start/stop transitions.</p>
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Lesson 6: PID Loops with Feedforward", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Lesson 6: PID Loops (Feedforward for Friction Compensation)", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
