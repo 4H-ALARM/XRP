@@ -1,132 +1,120 @@
-# Lesson 6: PID Loops with Feedforward
+# Lesson 6: PID Loops (Feedforward for Friction Compensation)
 
 ## Objective
 
-Teachers will help students understand how to improve robot control by combining PID feedback with feedforward control to predict and compensate for system behavior.
+Teachers will guide students through implementing a **PID controller with feedforward** to handle frictional resistance in the XRP robot’s drivetrain. Students will learn to fine-tune PID constants and use feedforward terms to improve motion smoothness.
 
 ## Prerequisites
 
-* Completion of Lesson 5: PID Loops – Gyro Turn.
-* Familiarity with motor control and tuning `kP`, `kI`, `kD`.
-* XRP drivetrain and sensors are calibrated.
+* Completion of Lesson 5: PID Loops - Gyro Turn.
+* Robot code that can already perform basic PID turning using the gyro.
 
 ## Teaching Notes
 
-This lesson extends PID control by introducing feedforward — predicting how much power is needed to achieve desired motion without waiting for error feedback. Emphasize how this improves responsiveness.
+This lesson builds on PID control by showing how **feedforward compensation** can offset predictable frictional forces that cause sluggish or inconsistent performance. This mirrors real-world FRC control strategies for mechanisms like drivetrains and arms.
 
 ---
 
 ## Lesson Outline
 
-### 1. Concept Review
+### 1. Recap: What Is Feedforward?
 
-Draw a comparison between feedback and feedforward:
+Feedforward adds a predictable control term that helps the PID controller overcome known system resistance.
 
-| Term                 | Description       | Example                                        |
-| -------------------- | ----------------- | ---------------------------------------------- |
-| **Feedback (PID)**   | Responds to error | Corrects when robot is off-target              |
-| **Feedforward (FF)** | Predicts output   | Applies voltage proportional to expected speed |
+**Formula:**
 
----
+```
+Output = kP * error + kI * errorSum + kD * errorRate + kS + kV * velocity
+```
 
-### 2. Introduce Feedforward Formula
+Where:
 
-WPILib’s `SimpleMotorFeedforward` models voltage:
+* `kS` is the **static friction compensation** (voltage needed to overcome stiction).
+* `kV` represents how much output is needed to maintain a certain velocity.
 
-[ V = kS + kV \times v + kA \times a ]
-
-* `kS` — static friction voltage
-* `kV` — velocity gain
-* `kA` — acceleration gain
+Explain that while PID corrects *errors*, feedforward anticipates the required effort to move smoothly.
 
 ---
 
-### 3. Creating FeedforwardDrive Command
+### 2. Example: Accounting for High Friction
+
+Use this concept to improve the **gyro turn** from Lesson 5.
 
 ```java
-package frc.robot.commands;
+public class GyroTurnCommand extends CommandBase {
+    private final Drivetrain drivetrain;
+    private final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private final double targetAngle;
+    private final PIDController pid = new PIDController(0.02, 0.0, 0.001);
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
+    // Feedforward constants
+    private final double kS = 0.15; // static friction voltage
+    private final double kV = 0.0;  // optional if you want velocity scaling
 
-public class FeedforwardDrive extends Command {
-    private final DriveSubsystem drive;
-    private final PIDController pid = new PIDController(0.1, 0, 0);
-    private final SimpleMotorFeedforward ff = new SimpleMotorFeedforward(0.2, 1.2, 0.1);
-    private final double targetSpeed;
-
-    public FeedforwardDrive(DriveSubsystem subsystem, double speed) {
-        this.drive = subsystem;
-        this.targetSpeed = speed;
-        addRequirements(drive);
+    public GyroTurnCommand(Drivetrain drivetrain, double angleDegrees) {
+        this.drivetrain = drivetrain;
+        this.targetAngle = angleDegrees;
+        addRequirements(drivetrain);
+        pid.setTolerance(2.0);
     }
 
     @Override
     public void execute() {
-        double measuredSpeed = drive.getWheelSpeed(); // method to be implemented in DriveSubsystem
-        double pidOutput = pid.calculate(measuredSpeed, targetSpeed);
-        double ffOutput = ff.calculate(targetSpeed);
-        drive.drive(pidOutput + ffOutput, 0);
-    }
+        double error = targetAngle - gyro.getAngle();
+        double pidOutput = pid.calculate(gyro.getAngle(), targetAngle);
 
-    @Override
-    public void end(boolean interrupted) {
-        drive.drive(0, 0);
+        // Add static friction feedforward
+        double output = pidOutput;
+        if (Math.abs(pidOutput) > 0.01) {
+            output += Math.copySign(kS, pidOutput);
+        }
+
+        drivetrain.arcadeDrive(0, output);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return pid.atSetpoint();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        drivetrain.arcadeDrive(0, 0);
     }
 }
 ```
 
 ---
 
-### 4. Updating DriveSubsystem
+### 3. Tuning Process
 
-Add a method to measure wheel speed (approximate for XRP):
-
-```java
-public double getWheelSpeed() {
-    // Replace with encoder reading when available
-    return 0.0; // Placeholder for simulation
-}
-```
+1. Start with feedforward only (`kS`). Increase until the robot starts moving smoothly at low speeds.
+2. Then add PID tuning from Lesson 5 to refine accuracy.
+3. Observe how feedforward reduces overshoot and startup lag.
 
 ---
 
-### 5. Discussion and Testing
+### 4. Teaching Demo
 
-Explain that in a real robot with encoders, feedforward improves motion smoothness.
-Run command at various speeds and observe the smooth start/stop transitions.
-
----
-
-## Teaching Tips
-
-* Emphasize that feedforward compensates before error occurs.
-* Demonstrate how tuning `kS`, `kV`, and `kA` changes motor responsiveness.
-* Use logging to compare raw PID vs PID + FF performance.
+* Have students compare turns **with** and **without feedforward**.
+* Record both runs using **AdvantageScope** (next lesson) to visualize PID output and angle tracking.
 
 ---
 
-## Extensions
+## Discussion Points
 
-* Add encoder feedback to XRP to compute actual speed.
-* Visualize control outputs in AdvantageScope.
-* Apply feedforward to arm position or velocity control.
+* How does friction affect turning precision?
+* Why is static feedforward especially useful on small robots like the XRP?
+* What other mechanisms (like arms or elevators) might need feedforward in FRC?
 
 ---
 
 ## Estimated Duration
 
-60–75 minutes (concept explanation + tuning)
+60–75 minutes (including testing and tuning)
 
 ## Learning Outcomes
 
-* Understand the purpose of feedforward in control systems.
-* Implement combined PID and feedforward control.
-* Recognize how predictive control improves performance.
+* Understand feedforward’s role in overcoming system resistance.
+* Apply friction compensation to improve control smoothness.
+* Tune combined PID + feedforward loops for reliable motion.
