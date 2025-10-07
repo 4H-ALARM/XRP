@@ -9,24 +9,24 @@
     <meta name="generator" content="Retype 3.11.0">
 
     <!-- Primary Meta Tags -->
-    <title>Lesson 3: Creating Subsystems (Arm) and Binding to Buttons</title>
-    <meta name="title" content="Lesson 3: Creating Subsystems (Arm) and Binding to Buttons">
-    <meta name="description" content="Teachers will lead students through creating a new subsystem (an Arm) and binding its actions to controller buttons using WPILib’s command-based...">
+    <title>Lesson 4: Distance Sensor</title>
+    <meta name="title" content="Lesson 4: Distance Sensor">
+    <meta name="description" content="Teachers will teach students how to read and use the XRP’s built-in distance sensor to measure distances and control robot behavior based on sensor...">
 
     <!-- Canonical -->
-    <link rel="canonical" href="/lessonplans/week3/">
+    <link rel="canonical" href="/lessonplans/week4/">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="/lessonplans/week3/">
-    <meta property="og:title" content="Lesson 3: Creating Subsystems (Arm) and Binding to Buttons">
-    <meta property="og:description" content="Teachers will lead students through creating a new subsystem (an Arm) and binding its actions to controller buttons using WPILib’s command-based...">
+    <meta property="og:url" content="/lessonplans/week4/">
+    <meta property="og:title" content="Lesson 4: Distance Sensor">
+    <meta property="og:description" content="Teachers will teach students how to read and use the XRP’s built-in distance sensor to measure distances and control robot behavior based on sensor...">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="/lessonplans/week3/">
-    <meta property="twitter:title" content="Lesson 3: Creating Subsystems (Arm) and Binding to Buttons">
-    <meta property="twitter:description" content="Teachers will lead students through creating a new subsystem (an Arm) and binding its actions to controller buttons using WPILib’s command-based...">
+    <meta property="twitter:url" content="/lessonplans/week4/">
+    <meta property="twitter:title" content="Lesson 4: Distance Sensor">
+    <meta property="twitter:description" content="Teachers will teach students how to read and use the XRP’s built-in distance sensor to measure distances and control robot behavior based on sensor...">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
@@ -150,10 +150,10 @@
                                 <!-- Rendered if sidebar right is enabled -->
                                 <div id="retype-sidebar-right-toggle"></div>
                                 <!-- Page content  -->
-<doc-anchor-target id="lesson-3-creating-subsystems-arm-and-binding-to-buttons" class="break-words">
+<doc-anchor-target id="lesson-4-distance-sensor" class="break-words">
     <h1>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-3-creating-subsystems-arm-and-binding-to-buttons">#</doc-anchor-trigger>
-        <span>Lesson 3: Creating Subsystems (Arm) and Binding to Buttons</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#lesson-4-distance-sensor">#</doc-anchor-trigger>
+        <span>Lesson 4: Distance Sensor</span>
     </h1>
 </doc-anchor-target>
 <doc-anchor-target id="objective">
@@ -162,7 +162,7 @@
         <span>Objective</span>
     </h2>
 </doc-anchor-target>
-<p>Teachers will lead students through creating a new subsystem (an Arm) and binding its actions to controller buttons using WPILib’s command-based structure.</p>
+<p>Teachers will teach students how to read and use the XRP’s built-in distance sensor to measure distances and control robot behavior based on sensor input.</p>
 <doc-anchor-target id="prerequisites">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#prerequisites">#</doc-anchor-trigger>
@@ -170,9 +170,9 @@
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Completion of Lesson 2: Creating Commands.</li>
-<li>XRP is connected and tested.</li>
-<li>Students understand how Commands interact with Subsystems.</li>
+<li>Completion of Lesson 3: Subsystems and Button Bindings.</li>
+<li>XRP’s distance sensor is connected and functional.</li>
+<li>Students understand Java conditionals and the command-based structure.</li>
 </ul>
 <doc-anchor-target id="teaching-notes">
     <h2>
@@ -180,7 +180,7 @@
         <span>Teaching Notes</span>
     </h2>
 </doc-anchor-target>
-<p>This lesson introduces multiple subsystems and shows how to use button bindings to control them. Emphasize that subsystems represent hardware and commands represent behavior.</p>
+<p>This lesson introduces basic sensor integration. Focus on reading real-time data from hardware, interpreting it, and reacting to environmental changes.</p>
 <hr>
 <doc-anchor-target id="lesson-outline">
     <h2>
@@ -188,143 +188,95 @@
         <span>Lesson Outline</span>
     </h2>
 </doc-anchor-target>
-<doc-anchor-target id="1-concept-discussion">
+<doc-anchor-target id="1-discuss-sensor-purpose">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#1-concept-discussion">#</doc-anchor-trigger>
-        <span>1. Concept Discussion</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#1-discuss-sensor-purpose">#</doc-anchor-trigger>
+        <span>1. Discuss Sensor Purpose</span>
     </h3>
 </doc-anchor-target>
-<p>Review the command-based structure:</p>
+<p>Explain what the distance sensor does:</p>
 <ul>
-<li><strong>Subsystems</strong> → Define hardware components and methods.</li>
-<li><strong>Commands</strong> → Tell subsystems what to do.</li>
-<li><strong>Button Bindings</strong> → Connect controller inputs to commands.</li>
+<li>Emits infrared or ultrasonic signals.</li>
+<li>Measures time until signal returns.</li>
+<li>Reports distance in centimeters.</li>
 </ul>
+<p>Show how sensors allow the robot to make autonomous decisions.</p>
 <hr>
-<doc-anchor-target id="2-creating-the-arm-subsystem">
+<doc-anchor-target id="2-creating-distancesubsystemjava">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#2-creating-the-arm-subsystem">#</doc-anchor-trigger>
-        <span>2. Creating the Arm Subsystem</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#2-creating-distancesubsystemjava">#</doc-anchor-trigger>
+        <span>2. Creating DistanceSubsystem.java</span>
     </h3>
 </doc-anchor-target>
-<p>Create <code v-pre>ArmSubsystem.java</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XRPMotor;
+import edu.wpi.first.wpilibj.XRPDistanceSensor;
 
-public class ArmSubsystem extends SubsystemBase {
-    private final XRPMotor armMotor = new XRPMotor(2); // Channel 2
+public class DistanceSubsystem extends SubsystemBase {
+    private final XRPDistanceSensor distanceSensor = new XRPDistanceSensor();
 
-    public void moveArm(double speed) {
-        armMotor.set(speed);
-    }
-
-    public void stopArm() {
-        armMotor.stopMotor();
+    public double getDistanceCM() {
+        return distanceSensor.getDistanceCM();
     }
 }</code></pre>
 </doc-codeblock></div>
-<p>Explain: The <code v-pre>XRPMotor</code> object controls one motor. Each motor is assigned a port number.</p>
 <hr>
-<doc-anchor-target id="3-creating-arm-commands">
+<doc-anchor-target id="3-creating-stopatwall-command">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#3-creating-arm-commands">#</doc-anchor-trigger>
-        <span>3. Creating Arm Commands</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#3-creating-stopatwall-command">#</doc-anchor-trigger>
+        <span>3. Creating StopAtWall Command</span>
     </h3>
 </doc-anchor-target>
-<p>Create two commands: <code v-pre>ArmUp.java</code> and <code v-pre>ArmDown.java</code>.</p>
-<doc-anchor-target id="armupjava">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#armupjava">#</doc-anchor-trigger>
-        <span>ArmUp.java</span>
-    </h4>
-</doc-anchor-target>
+<p>This command drives forward until the robot is within a threshold distance from an obstacle.</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.DistanceSubsystem;
 
-public class ArmUp extends Command {
-    private final ArmSubsystem arm;
+public class StopAtWall extends Command {
+    private final DriveSubsystem drive;
+    private final DistanceSubsystem sensor;
 
-    public ArmUp(ArmSubsystem subsystem) {
-        arm = subsystem;
-        addRequirements(arm);
+    public StopAtWall(DriveSubsystem drive, DistanceSubsystem sensor) {
+        this.drive = drive;
+        this.sensor = sensor;
+        addRequirements(drive, sensor);
     }
 
     @Override
     public void execute() {
-        arm.moveArm(0.5);
+        drive.drive(0.4, 0);
     }
 
     @Override
     public void end(boolean interrupted) {
-        arm.stopArm();
+        drive.drive(0, 0);
     }
 
     @Override
     public boolean isFinished() {
-        return false; // Hold until button released
-    }
-}</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="armdownjava">
-    <h4>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#armdownjava">#</doc-anchor-trigger>
-        <span>ArmDown.java</span>
-    </h4>
-</doc-anchor-target>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.commands;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ArmSubsystem;
-
-public class ArmDown extends Command {
-    private final ArmSubsystem arm;
-
-    public ArmDown(ArmSubsystem subsystem) {
-        arm = subsystem;
-        addRequirements(arm);
-    }
-
-    @Override
-    public void execute() {
-        arm.moveArm(-0.5);
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        arm.stopArm();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
+        return sensor.getDistanceCM() &lt; 10.0; // Stop within 10 cm of obstacle
     }
 }</code></pre>
 </doc-codeblock></div>
 <hr>
-<doc-anchor-target id="4-binding-commands-to-buttons">
+<doc-anchor-target id="4-binding-to-button">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#4-binding-commands-to-buttons">#</doc-anchor-trigger>
-        <span>4. Binding Commands to Buttons</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#4-binding-to-button">#</doc-anchor-trigger>
+        <span>4. Binding to Button</span>
     </h3>
 </doc-anchor-target>
 <p>In <code v-pre>RobotContainer.java</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">private final ArmSubsystem armSubsystem = new ArmSubsystem();
-private final Joystick controller = new Joystick(0);
+<pre translate="no" class="language-java"><code v-pre class="language-java">private final DistanceSubsystem distanceSubsystem = new DistanceSubsystem();
 
 private void configureBindings() {
-    new JoystickButton(controller, 1)
-        .whileTrue(new ArmUp(armSubsystem)); // Button 1 raises arm
-
-    new JoystickButton(controller, 2)
-        .whileTrue(new ArmDown(armSubsystem)); // Button 2 lowers arm
+    new JoystickButton(controller, 3)
+        .onTrue(new StopAtWall(driveSubsystem, distanceSubsystem));
 }</code></pre>
 </doc-codeblock></div>
 <hr>
@@ -335,9 +287,9 @@ private void configureBindings() {
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Reinforce that Subsystems = Hardware, Commands = Actions.</li>
-<li>Show how multiple commands can use the same subsystem safely.</li>
-<li>Have students add print statements to confirm code flow.</li>
+<li>Have students log distance readings using <code v-pre>System.out.println()</code>.</li>
+<li>Place obstacles at different distances and test stopping accuracy.</li>
+<li>Discuss sensor noise and real-world variability.</li>
 </ul>
 <hr>
 <doc-anchor-target id="extensions">
@@ -347,9 +299,9 @@ private void configureBindings() {
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Add a sensor to stop arm movement at upper/lower limits.</li>
-<li>Combine drive and arm commands to practice concurrency.</li>
-<li>Create a command to move the arm to a specific position.</li>
+<li>Use the sensor for automatic parking or alignment.</li>
+<li>Plot sensor readings in AdvantageScope (preview for Lesson 7).</li>
+<li>Introduce averaging or filtering for more accurate readings.</li>
 </ul>
 <hr>
 <doc-anchor-target id="estimated-duration">
@@ -358,7 +310,7 @@ private void configureBindings() {
         <span>Estimated Duration</span>
     </h2>
 </doc-anchor-target>
-<p>60 minutes (coding + testing)</p>
+<p>45 minutes (concept + testing)</p>
 <doc-anchor-target id="learning-outcomes">
     <h2>
         <doc-anchor-trigger class="header-anchor-trigger" to="#learning-outcomes">#</doc-anchor-trigger>
@@ -366,9 +318,9 @@ private void configureBindings() {
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Create and manage new subsystems.</li>
-<li>Bind commands to controller buttons.</li>
-<li>Understand hardware abstraction in WPILib.</li>
+<li>Understand how to interface with a distance sensor.</li>
+<li>Use sensor feedback to stop or adjust robot behavior.</li>
+<li>Build foundational logic for autonomous navigation.</li>
 </ul>
 
                                 
@@ -379,20 +331,20 @@ private void configureBindings() {
                             
                                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../lessonplans/week2/">
+                                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../lessonplans/week3/">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                             <span>
                                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                                <span class="block mt-1">Lesson 2: How to Create Commands</span>
+                                                <span class="block mt-1">Lesson 3: Creating Subsystems (Arm) and Binding to Buttons</span>
                                             </span>
                                         </a>
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../lessonplans/week4/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../ourexperience/procurement/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                                <span class="block mt-1">Lesson 4: Distance Sensor</span>
+                                                <span class="block mt-1">Procurement</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
@@ -436,6 +388,6 @@ private void configureBindings() {
 
     <div id="retype-overlay-target"></div>
 
-    <script data-cfasync="false">window.__DOCS__ = { "title": "Lesson 3: Creating Subsystems (Arm) and Binding to Buttons", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
+    <script data-cfasync="false">window.__DOCS__ = { "title": "Lesson 4: Distance Sensor", level: 2, icon: "file", hasPrism: true, hasMermaid: false, hasMath: false, tocDepth: 23 }</script>
 </body>
 </html>
