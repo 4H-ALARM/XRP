@@ -2,7 +2,7 @@
 
 ## Objective
 
-Teachers will teach students how to use **AdvantageScope** to visualize, record, and debug robot data in real time. Students will learn to view PID loops, sensor readings, and command states.
+Teachers will show students how to use **AdvantageScope** to visualize, record, and debug robot data in real time. Students will learn to view PID loops, sensor readings, and command states.
 
 ## Prerequisites
 
@@ -80,14 +80,6 @@ In AdvantageScope:
 * Demonstrate using AdvantageScope **live** while running commands.
 * Encourage students to correlate sensor data with robot motion.
 * Use saved logs to review autonomous runs.
-
----
-
-## Extensions
-
-* Add log entries for command start/stop events.
-* Use AdvantageScope to verify PID tuning visually.
-* Export data to CSV for further analysis.
 
 ---
 
