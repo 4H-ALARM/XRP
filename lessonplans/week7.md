@@ -30,30 +30,7 @@ Discuss its role in **data-driven debugging**.
 
 ---
 
-### 2. Setting Up AdvantageScope
-
-1. Open **AdvantageScope**.
-2. Connect to the robot using the IP (e.g., `10.TE.AM.2` for FRC, or local WiFi for XRP).
-3. Enable logging in robot code using WPILib’s DataLogManager:
-
-```java
-import edu.wpi.first.wpilibj.DataLogManager;
-import edu.wpi.first.wpilibj.DriverStation;
-
-public class Robot extends TimedRobot {
-    @Override
-    public void robotInit() {
-        DataLogManager.start();
-        DriverStation.startDataLog(DataLogManager.getLog());
-    }
-}
-```
-
-4. Re-deploy code and open the log viewer tab.
-
----
-
-### 3. Logging Custom Data
+### 2. Logging Custom Data
 
 Demonstrate logging data manually from subsystems:
 
