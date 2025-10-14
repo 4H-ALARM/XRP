@@ -30,7 +30,6 @@ Output = kP * error + kI * errorSum + kD * errorRate + kS + kV * velocity
 Where:
 
 * `kS` is the **static friction compensation** (voltage needed to overcome stiction).
-* `kV` represents how much output is needed to maintain a certain velocity.
 
 Explain that while PID corrects *errors*, feedforward anticipates the required effort to move smoothly.
 
@@ -88,7 +87,7 @@ public class GyroTurnCommand extends CommandBase {
 
 ### 3. Tuning Process
 
-1. Start with feedforward only (`kS`). Increase until the robot starts moving smoothly at low speeds.
+1. Start with feedforward only (`kS`). Increase until the robot starts moving smoothly at low speeds, then turn it down so any PID output will move it.
 2. Then add PID tuning from Lesson 5 to refine accuracy.
 3. Observe how feedforward reduces overshoot and startup lag.
 
