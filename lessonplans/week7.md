@@ -59,7 +59,7 @@ This allows AdvantageScope to visualize the robot’s distance readings over tim
 
 ---
 
-### 4. Viewing PID and Feedforward Data
+### 3. Viewing PID and Feedforward Data
 
 Show students how to plot multiple entries:
 
