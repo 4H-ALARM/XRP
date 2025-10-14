@@ -114,9 +114,6 @@ In AdvantageScope:
 
 ---
 
-## Estimated Duration
-
-45–60 minutes
 
 ## Learning Outcomes
 
