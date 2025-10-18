@@ -52,7 +52,7 @@ public class DriveForward extends Command {
 
     @Override
     public void execute() {
-        drive.arcadeDrive(0.5, 0.0); // Forward at half speed
+        drive.arcadeDrive(0.8, 0.0); // Forward at half speed
     }
 
     @Override
@@ -103,7 +103,7 @@ Deploy the code and confirm the XRP moves forward.
 
 ## Extensions
 
-* Add rotation: modify `drive(0.5, 0.3)`.
+* Add rotation: modify `drive(0.8, 0.3)`.
 * Add joystick input for control.
 * Have students experiment with different speed combinations.
 
