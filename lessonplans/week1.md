@@ -40,24 +40,24 @@ Create a command to move forward:
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.XRPDrivetrain;
 
 public class DriveForward extends Command {
-    private final DriveSubsystem drive;
+    private final XRPDrivetrain drive;
 
-    public DriveForward(DriveSubsystem subsystem) {
+    public DriveForward(XRPDrivetrain subsystem) {
         drive = subsystem;
         addRequirements(drive);
     }
 
     @Override
     public void execute() {
-        drive.drive(0.5, 0.0); // Forward at half speed
+        drive.arcadeDrive(0.5, 0.0); // Forward at half speed
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0);
+        drive.arcadeDrive(0, 0);
     }
 
     @Override
