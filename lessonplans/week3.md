@@ -71,7 +71,7 @@ import frc.robot.subsystems.ArmSubsystem;
 public class Arm90 extends Command {
     private final ArmSubsystem arm;
 
-    public ArmUp(ArmSubsystem subsystem) {
+    public Arm90(ArmSubsystem subsystem) {
         arm = subsystem;
         addRequirements(arm);
     }
@@ -83,7 +83,6 @@ public class Arm90 extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        arm.stopArm();
     }
 
     @Override
@@ -116,7 +115,7 @@ public class Arm0 extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        arm.stopArm();
+
     }
 
     @Override
