@@ -134,9 +134,12 @@ In `RobotContainer.java`:
 ```java
 private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
+private final Arm0 arm0 = new Arm0(armSubsystem);
+private final Arm90 arm90 = new Arm90(armSubsystem);
+
 private void configureBindings() {
-    controller.leftbumper().onTrue(Arm0);
-    controller.rightbumper().onTrue(Arm90);
+    controller.leftBumper().onTrue(Arm0);
+    controller.rightBumper().onTrue(Arm90);
 }
 ```
 
