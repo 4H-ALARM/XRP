@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814073942779">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814073998666">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.11.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../resources/css/retype.css?v=3.11.0.814073942779" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.11.0.814073998666" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814073942779" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814073998666" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814073942779" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814073942779" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814073998666" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814073998666" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -256,10 +256,20 @@ public class DriveForward extends Command {
 </doc-anchor-target>
 <p>In <code v-pre>RobotContainer.java</code>, bind the drive command as the default:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">public RobotContainer() {
-    driveSubsystem = new DriveSubsystem();
-    driveSubsystem.setDefaultCommand(new DriveForward(driveSubsystem));
-}</code></pre>
+<pre translate="no" class="language-java"><code v-pre class="language-java">public class RobotContainer {
+  // The robot's subsystems and commands are defined here...
+  private final XRPDrivetrain m_xrpDrivetrain = new XRPDrivetrain();
+
+  private final CommandXboxController controller = new CommandXboxController(0);
+
+  private final DriveForward driveForward = new DriveForward(m_xrpDrivetrain);
+
+
+  private void configureButtonBindings() {
+    m_xrpDrivetrain.setDefaultCommand(Commands.run(() -&gt;m_xrpDrivetrain.arcadeDrive(controller.getLeftY(), controller.getRightX()), m_xrpDrivetrain));
+    controller.a().whileTrue(driveForward);
+  }
+</code></pre>
 </doc-codeblock></div>
 <p>Deploy the code and confirm the XRP moves forward.</p>
 <hr>
