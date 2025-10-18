@@ -18,7 +18,7 @@ This lesson introduces the XRP’s environment and simple robot movement. Emphas
 
 ## Lesson Outline
 
-### 1. Explain the Project Structure
+### 1. Use the CommandXRP template, and Explain the Project Structure
 
 * `Robot.java` controls the overall robot lifecycle (`autonomousInit`, `teleopPeriodic`, etc.).
 * `RobotContainer.java` wires up subsystems and commands.
@@ -31,26 +31,8 @@ This lesson introduces the XRP’s environment and simple robot movement. Emphas
 * Ensure WiFi connection is active.
 * Verify motor control by running the default project.
 
-### 3. Creating a Drive Subsystem
 
-Create a new file: `DriveSubsystem.java`
-
-```java
-package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XRPDrivetrain;
-
-public class DriveSubsystem extends SubsystemBase {
-    private final XRPDrivetrain drivetrain = new XRPDrivetrain();
-
-    public void drive(double speed, double rotation) {
-        drivetrain.arcadeDrive(speed, rotation);
-    }
-}
-```
-
-### 4. Add Drive Command
+### 3. Add Drive Command
 
 Create a command to move forward:
 
@@ -85,7 +67,7 @@ public class DriveForward extends Command {
 }
 ```
 
-### 5. Run Command in Teleop
+### 4. Run Command in Teleop
 
 In `RobotContainer.java`, bind the drive command as the default:
 
