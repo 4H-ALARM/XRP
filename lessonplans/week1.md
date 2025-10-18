@@ -72,10 +72,20 @@ public class DriveForward extends Command {
 In `RobotContainer.java`, bind the drive command as the default:
 
 ```java
-public RobotContainer() {
-    driveSubsystem = new DriveSubsystem();
-    driveSubsystem.setDefaultCommand(new DriveForward(driveSubsystem));
-}
+public class RobotContainer {
+  // The robot's subsystems and commands are defined here...
+  private final XRPDrivetrain m_xrpDrivetrain = new XRPDrivetrain();
+
+  private final CommandXboxController controller = new CommandXboxController(0);
+
+  private final DriveForward driveForward = new DriveForward(m_xrpDrivetrain);
+
+
+  private void configureButtonBindings() {
+    m_xrpDrivetrain.setDefaultCommand(Commands.run(() ->m_xrpDrivetrain.arcadeDrive(controller.getLeftY(), controller.getRightX()), m_xrpDrivetrain));
+    controller.a().whileTrue(driveForward);
+  }
+
 ```
 
 Deploy the code and confirm the XRP moves forward.
