@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814051983324">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814073942779">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.11.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../resources/css/retype.css?v=3.11.0.814051983324" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.11.0.814073942779" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814051983324" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814073942779" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814051983324" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814051983324" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814073942779" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814073942779" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -188,10 +188,10 @@
         <span>Lesson Outline</span>
     </h2>
 </doc-anchor-target>
-<doc-anchor-target id="1-explain-the-project-structure">
+<doc-anchor-target id="1-use-the-commandxrp-template-and-explain-the-project-structure">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#1-explain-the-project-structure">#</doc-anchor-trigger>
-        <span>1. Explain the Project Structure</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#1-use-the-commandxrp-template-and-explain-the-project-structure">#</doc-anchor-trigger>
+        <span>1. Use the CommandXRP template, and Explain the Project Structure</span>
     </h3>
 </doc-anchor-target>
 <ul>
@@ -211,31 +211,10 @@
 <li>Ensure WiFi connection is active.</li>
 <li>Verify motor control by running the default project.</li>
 </ul>
-<doc-anchor-target id="3-creating-a-drive-subsystem">
+<doc-anchor-target id="3-add-drive-command">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#3-creating-a-drive-subsystem">#</doc-anchor-trigger>
-        <span>3. Creating a Drive Subsystem</span>
-    </h3>
-</doc-anchor-target>
-<p>Create a new file: <code v-pre>DriveSubsystem.java</code></p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XRPDrivetrain;
-
-public class DriveSubsystem extends SubsystemBase {
-    private final XRPDrivetrain drivetrain = new XRPDrivetrain();
-
-    public void drive(double speed, double rotation) {
-        drivetrain.arcadeDrive(speed, rotation);
-    }
-}</code></pre>
-</doc-codeblock></div>
-<doc-anchor-target id="4-add-drive-command">
-    <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#4-add-drive-command">#</doc-anchor-trigger>
-        <span>4. Add Drive Command</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#3-add-drive-command">#</doc-anchor-trigger>
+        <span>3. Add Drive Command</span>
     </h3>
 </doc-anchor-target>
 <p>Create a command to move forward:</p>
@@ -269,10 +248,10 @@ public class DriveForward extends Command {
     }
 }</code></pre>
 </doc-codeblock></div>
-<doc-anchor-target id="5-run-command-in-teleop">
+<doc-anchor-target id="4-run-command-in-teleop">
     <h3>
-        <doc-anchor-trigger class="header-anchor-trigger" to="#5-run-command-in-teleop">#</doc-anchor-trigger>
-        <span>5. Run Command in Teleop</span>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#4-run-command-in-teleop">#</doc-anchor-trigger>
+        <span>4. Run Command in Teleop</span>
     </h3>
 </doc-anchor-target>
 <p>In <code v-pre>RobotContainer.java</code>, bind the drive command as the default:</p>
