@@ -80,6 +80,7 @@ public class RobotContainer {
 
   private final DriveForward driveForward = new DriveForward(m_xrpDrivetrain);
 
+...
 
   private void configureButtonBindings() {
     m_xrpDrivetrain.setDefaultCommand(Commands.run(() ->m_xrpDrivetrain.arcadeDrive(controller.getLeftY(), controller.getRightX()), m_xrpDrivetrain));
