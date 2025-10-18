@@ -36,13 +36,13 @@ Show how sensors allow the robot to make autonomous decisions.
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XRPDistanceSensor;
+import edu.wpi.first.wpilibj.xrp.XRPRangefinder;
 
 public class DistanceSubsystem extends SubsystemBase {
-    private final XRPDistanceSensor distanceSensor = new XRPDistanceSensor();
+    private final XRPRangefinder distanceSensor = new XRPRangefinder();
 
     public double getDistanceCM() {
-        return distanceSensor.getDistanceCM();
+        return distanceSensor.getDistanceInches();
     }
 }
 ```
