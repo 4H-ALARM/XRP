@@ -72,7 +72,7 @@ public class StopAtWall extends Command {
 
     @Override
     public void execute() {
-        drive.arcadeDrive(0.4, 0);
+        drive.arcadeDrive(0.6, 0);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class StopAtWall extends Command {
 
     @Override
     public boolean isFinished() {
-        return sensor.getDistanceIn() < 5.0; // Stop within 10 in of obstacle
+        return sensor.getDistanceIn() < 8.0; // Stop within 8 in of obstacle
     }
 }
 ```
