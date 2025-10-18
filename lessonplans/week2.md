@@ -37,16 +37,16 @@ Illustrate this lifecycle with a diagram on the board.
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.XRPDrivetrain;
 import edu.wpi.first.wpilibj.Timer;
 
 public class DriveTime extends Command {
-    private final DriveSubsystem drive;
+    private final XRPDrivetrain drive;
     private final double speed;
     private final double duration;
     private final Timer timer = new Timer();
 
-    public DriveTime(DriveSubsystem subsystem, double speed, double duration) {
+    public DriveTime(XRPDrivetrain subsystem, double speed, double duration) {
         this.drive = subsystem;
         this.speed = speed;
         this.duration = duration;
@@ -61,12 +61,12 @@ public class DriveTime extends Command {
 
     @Override
     public void execute() {
-        drive.drive(speed, 0);
+        drive.arcadeDrive(speed, 0);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0);
+        drive.arcadeDrive(0, 0);
         timer.stop();
     }
 
