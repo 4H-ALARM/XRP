@@ -39,16 +39,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.XRPGyro;
+import frc.robot.subsystems.XRPDrivetrain;
+import edu.wpi.first.wpilibj.xrp.XRPGyro;
+
 
 public class GyroTurn extends Command {
-    private final DriveSubsystem drive;
+    private final XRPDrivetrain drive;
     private final XRPGyro gyro = new XRPGyro();
     private final PIDController controller;
     private final double targetAngle;
 
-    public GyroTurn(DriveSubsystem subsystem, double angle) {
+    public GyroTurn(XRPDrivetrain subsystem, double angle) {
         this.drive = subsystem;
         this.targetAngle = angle;
         controller = new PIDController(0.03, 0.0, 0.002);
@@ -64,12 +65,12 @@ public class GyroTurn extends Command {
     @Override
     public void execute() {
         double output = controller.calculate(gyro.getAngle());
-        drive.drive(0, output); // Rotate in place
+        drive.arcadeDrive(0, output); // Rotate in place
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0);
+        drive.arcadeDrive(0, 0);
     }
 
     @Override
@@ -86,8 +87,13 @@ public class GyroTurn extends Command {
 In `RobotContainer.java`:
 
 ```java
-new JoystickButton(controller, 4)
-    .onTrue(new GyroTurn(driveSubsystem, 90)); // Turn 90 degrees
+
+private final GyroTurn gyroTurn = new GyroTurn(m_xrpDrivetrain, 90);
+
+
+private void configureButtonBindings() {
+    controller.leftTrigger().onTrue(gyroTurn);
+  }
 ```
 
 Run the program and watch the robot rotate. Adjust `kP`, `kI`, and `kD` for smoother motion:
