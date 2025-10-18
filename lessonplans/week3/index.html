@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814074605919">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814077778463">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.11.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../resources/css/retype.css?v=3.11.0.814074605919" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.11.0.814077778463" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814074605919" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814077778463" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814074605919" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814074605919" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814077778463" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814077778463" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -212,21 +212,22 @@
 <pre translate="no" class="language-java"><code v-pre class="language-java">package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XRPMotor;
+import edu.wpi.first.wpilibj.xrp.XRPServo;
 
 public class ArmSubsystem extends SubsystemBase {
-    private final XRPMotor armMotor = new XRPMotor(2); // Channel 2
+    private final XRPServo servo = new XRPServo(2); // Channel 2
 
-    public void moveArm(double speed) {
-        armMotor.set(speed);
+    public void moveArm(double angle) {
+      servo.setAngle(angle);
     }
 
-    public void stopArm() {
-        armMotor.stopMotor();
+    public double getArm() {
+      return servo.getAngle();
     }
+
 }</code></pre>
 </doc-codeblock></div>
-<p>Explain: The <code v-pre>XRPMotor</code> object controls one motor. Each motor is assigned a port number.</p>
+<p>Explain: The <code v-pre>XRPServo</code> object controls one servo. Each servo is assigned a port number, basedon on what is on the board.</p>
 <hr>
 <doc-anchor-target id="3-creating-arm-commands">
     <h3>
@@ -234,7 +235,7 @@ public class ArmSubsystem extends SubsystemBase {
         <span>3. Creating Arm Commands</span>
     </h3>
 </doc-anchor-target>
-<p>Create two commands: <code v-pre>ArmUp.java</code> and <code v-pre>ArmDown.java</code>.</p>
+<p>Create two commands: <code v-pre>Arm90.java</code> and <code v-pre>Arm0.java</code>.</p>
 <doc-anchor-target id="armupjava">
     <h4>
         <doc-anchor-trigger class="header-anchor-trigger" to="#armupjava">#</doc-anchor-trigger>
@@ -247,7 +248,7 @@ public class ArmSubsystem extends SubsystemBase {
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmUp extends Command {
+public class Arm90 extends Command {
     private final ArmSubsystem arm;
 
     public ArmUp(ArmSubsystem subsystem) {
@@ -257,7 +258,7 @@ public class ArmUp extends Command {
 
     @Override
     public void execute() {
-        arm.moveArm(0.5);
+        arm.moveArm(90);
     }
 
     @Override
@@ -283,17 +284,17 @@ public class ArmUp extends Command {
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmDown extends Command {
+public class Arm0 extends Command {
     private final ArmSubsystem arm;
 
-    public ArmDown(ArmSubsystem subsystem) {
+    public Arm0(ArmSubsystem subsystem) {
         arm = subsystem;
         addRequirements(arm);
     }
 
     @Override
     public void execute() {
-        arm.moveArm(-0.5);
+        arm.moveArm(0);
     }
 
     @Override
@@ -317,14 +318,10 @@ public class ArmDown extends Command {
 <p>In <code v-pre>RobotContainer.java</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-java"><code v-pre class="language-java">private final ArmSubsystem armSubsystem = new ArmSubsystem();
-private final Joystick controller = new Joystick(0);
 
 private void configureBindings() {
-    new JoystickButton(controller, 1)
-        .whileTrue(new ArmUp(armSubsystem)); // Button 1 raises arm
-
-    new JoystickButton(controller, 2)
-        .whileTrue(new ArmDown(armSubsystem)); // Button 2 lowers arm
+    controller.leftbumper().onTrue(Arm0);
+    controller.rightbumper().onTrue(Arm90);
 }</code></pre>
 </doc-codeblock></div>
 <hr>
@@ -347,8 +344,6 @@ private void configureBindings() {
     </h2>
 </doc-anchor-target>
 <ul>
-<li>Add a sensor to stop arm movement at upper/lower limits.</li>
-<li>Combine drive and arm commands to practice concurrency.</li>
 <li>Create a command to move the arm to a specific position.</li>
 </ul>
 <hr>
