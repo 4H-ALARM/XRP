@@ -85,15 +85,18 @@ Add a test binding to `RobotContainer.java`:
 
 ```java
 public class RobotContainer {
-    private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+    private final XRPDrivetrain m_xrpDrivetrain = new XRPDrivetrain();
+
+    private final CommandXboxController controller = new CommandXboxController(0);
+
+    private final DriveTime driveTime = new DriveTime(m_xrpDrivetrain, 0.5, 2);
 
     public RobotContainer() {
         configureBindings();
     }
 
     private void configureBindings() {
-        new JoystickButton(new Joystick(0), 1)
-            .onTrue(new DriveTime(driveSubsystem, 0.5, 2)); // Button 1 drives for 2s
+        controller.b().onTrue(driveTime);
     }
 }
 ```
