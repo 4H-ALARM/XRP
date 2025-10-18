@@ -41,7 +41,7 @@ import edu.wpi.first.wpilibj.xrp.XRPRangefinder;
 public class DistanceSubsystem extends SubsystemBase {
     private final XRPRangefinder distanceSensor = new XRPRangefinder();
 
-    public double getDistanceCM() {
+    public double getDistanceIn() {
         return distanceSensor.getDistanceInches();
     }
 }
@@ -57,14 +57,14 @@ This command drives forward until the robot is within a threshold distance from 
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.XRPDrivetrain;
 import frc.robot.subsystems.DistanceSubsystem;
 
 public class StopAtWall extends Command {
-    private final DriveSubsystem drive;
+    private final XRPDrivetrain drive;
     private final DistanceSubsystem sensor;
 
-    public StopAtWall(DriveSubsystem drive, DistanceSubsystem sensor) {
+    public StopAtWall(XRPDrivetrain drive, DistanceSubsystem sensor) {
         this.drive = drive;
         this.sensor = sensor;
         addRequirements(drive, sensor);
@@ -72,17 +72,17 @@ public class StopAtWall extends Command {
 
     @Override
     public void execute() {
-        drive.drive(0.4, 0);
+        drive.arcadeDrive(0.4, 0);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0);
+        drive.arcadeDrive(0, 0);
     }
 
     @Override
     public boolean isFinished() {
-        return sensor.getDistanceCM() < 10.0; // Stop within 10 cm of obstacle
+        return sensor.getDistanceIn() < 5.0; // Stop within 10 in of obstacle
     }
 }
 ```
@@ -96,9 +96,10 @@ In `RobotContainer.java`:
 ```java
 private final DistanceSubsystem distanceSubsystem = new DistanceSubsystem();
 
+private final StopAtWall stopAtWall= new StopAtWall(m_xrpDrivetrain, distanceSubsystem);
+
 private void configureBindings() {
-    new JoystickButton(controller, 3)
-        .onTrue(new StopAtWall(driveSubsystem, distanceSubsystem));
+    controller.rightTrigger().onTrue(stopAtWall);
 }
 ```
 
