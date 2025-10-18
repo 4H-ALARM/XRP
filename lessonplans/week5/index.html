@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814078790609">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.11.0.814079154605">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.11.0">
@@ -30,12 +30,12 @@
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
-    <link href="../../resources/css/retype.css?v=3.11.0.814078790609" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.11.0.814079154605" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814078790609" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.11.0.814079154605" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.11.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814078790609" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814078790609" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.11.0.814079154605" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.11.0.814079154605" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -215,16 +215,17 @@
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.XRPGyro;
+import frc.robot.subsystems.XRPDrivetrain;
+import edu.wpi.first.wpilibj.xrp.XRPGyro;
+
 
 public class GyroTurn extends Command {
-    private final DriveSubsystem drive;
+    private final XRPDrivetrain drive;
     private final XRPGyro gyro = new XRPGyro();
     private final PIDController controller;
     private final double targetAngle;
 
-    public GyroTurn(DriveSubsystem subsystem, double angle) {
+    public GyroTurn(XRPDrivetrain subsystem, double angle) {
         this.drive = subsystem;
         this.targetAngle = angle;
         controller = new PIDController(0.03, 0.0, 0.002);
@@ -240,12 +241,12 @@ public class GyroTurn extends Command {
     @Override
     public void execute() {
         double output = controller.calculate(gyro.getAngle());
-        drive.drive(0, output); // Rotate in place
+        drive.arcadeDrive(0, output); // Rotate in place
     }
 
     @Override
     public void end(boolean interrupted) {
-        drive.drive(0, 0);
+        drive.arcadeDrive(0, 0);
     }
 
     @Override
@@ -263,8 +264,13 @@ public class GyroTurn extends Command {
 </doc-anchor-target>
 <p>In <code v-pre>RobotContainer.java</code>:</p>
 <div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-java"><code v-pre class="language-java">new JoystickButton(controller, 4)
-    .onTrue(new GyroTurn(driveSubsystem, 90)); // Turn 90 degrees</code></pre>
+<pre translate="no" class="language-java"><code v-pre class="language-java">
+private final GyroTurn gyroTurn = new GyroTurn(m_xrpDrivetrain, 90);
+
+
+private void configureButtonBindings() {
+    controller.leftTrigger().onTrue(gyroTurn);
+  }</code></pre>
 </doc-codeblock></div>
 <p>Run the program and watch the robot rotate. Adjust <code v-pre>kP</code>, <code v-pre>kI</code>, and <code v-pre>kD</code> for smoother motion:</p>
 <ul>
