@@ -89,7 +89,7 @@ public class RobotContainer {
 
     private final CommandXboxController controller = new CommandXboxController(0);
 
-    private final DriveTime driveTime = new DriveTime(m_xrpDrivetrain, 0.5, 2);
+    private final DriveTime driveTime = new DriveTime(m_xrpDrivetrain, 0.8, 2);
 
     public RobotContainer() {
         configureBindings();
