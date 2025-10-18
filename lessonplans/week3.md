@@ -36,28 +36,29 @@ Create `ArmSubsystem.java`:
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XRPMotor;
+import edu.wpi.first.wpilibj.xrp.XRPServo;
 
 public class ArmSubsystem extends SubsystemBase {
-    private final XRPMotor armMotor = new XRPMotor(2); // Channel 2
+    private final XRPServo servo = new XRPServo(2); // Channel 2
 
-    public void moveArm(double speed) {
-        armMotor.set(speed);
+    public void moveArm(double angle) {
+      servo.setAngle(angle);
     }
 
-    public void stopArm() {
-        armMotor.stopMotor();
+    public double getArm() {
+      return servo.getAngle();
     }
+
 }
 ```
 
-Explain: The `XRPMotor` object controls one motor. Each motor is assigned a port number.
+Explain: The `XRPServo` object controls one servo. Each servo is assigned a port number, basedon on what is on the board.
 
 ---
 
 ### 3. Creating Arm Commands
 
-Create two commands: `ArmUp.java` and `ArmDown.java`.
+Create two commands: `Arm90.java` and `Arm0.java`.
 
 #### ArmUp.java
 
@@ -67,7 +68,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmUp extends Command {
+public class Arm90 extends Command {
     private final ArmSubsystem arm;
 
     public ArmUp(ArmSubsystem subsystem) {
@@ -77,7 +78,7 @@ public class ArmUp extends Command {
 
     @Override
     public void execute() {
-        arm.moveArm(0.5);
+        arm.moveArm(90);
     }
 
     @Override
@@ -100,17 +101,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmDown extends Command {
+public class Arm0 extends Command {
     private final ArmSubsystem arm;
 
-    public ArmDown(ArmSubsystem subsystem) {
+    public Arm0(ArmSubsystem subsystem) {
         arm = subsystem;
         addRequirements(arm);
     }
 
     @Override
     public void execute() {
-        arm.moveArm(-0.5);
+        arm.moveArm(0);
     }
 
     @Override
@@ -133,14 +134,10 @@ In `RobotContainer.java`:
 
 ```java
 private final ArmSubsystem armSubsystem = new ArmSubsystem();
-private final Joystick controller = new Joystick(0);
 
 private void configureBindings() {
-    new JoystickButton(controller, 1)
-        .whileTrue(new ArmUp(armSubsystem)); // Button 1 raises arm
-
-    new JoystickButton(controller, 2)
-        .whileTrue(new ArmDown(armSubsystem)); // Button 2 lowers arm
+    controller.leftbumper().onTrue(Arm0);
+    controller.rightbumper().onTrue(Arm90);
 }
 ```
 
@@ -156,8 +153,6 @@ private void configureBindings() {
 
 ## Extensions
 
-* Add a sensor to stop arm movement at upper/lower limits.
-* Combine drive and arm commands to practice concurrency.
 * Create a command to move the arm to a specific position.
 
 ---
